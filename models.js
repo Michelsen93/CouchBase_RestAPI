@@ -150,9 +150,7 @@ var CompetitionModel = ottoman.model("Competition", {
             ref: "Standplass"
         }
     ],
-    date:{
-        type: "Date"
-    },
+    date: "string",
     weaponGroups: [
         {
             ref: "WeaponGroup"
