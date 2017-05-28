@@ -324,20 +324,19 @@ var appRouter = function(app) {
             if (error) {
                 return res.status(400);
             }
-
             var competitors = req.body.competitors;
+            console.log(competitors);
             for (var i in competitors) {
                 PersonModel.find({mail: competitors[i]}, function (error, person) {
                     if (error) {
                         return res.status(400);
                     }
+                    console.log(competitors[i], person[0]);
                     team[0].competitors.push(person[0]);
                     team[0].save(function (error, result) {
                         if (error) {
                             return res.status(400);
                         }
-                        console.log("competitor added to team: " +  req.body.teamNumber);
-
                     })
                 });
             }
@@ -396,12 +395,12 @@ var appRouter = function(app) {
      */
     app.post("/competition/standplass", function (req, res) {
 
-
+            console.log("Legger til standplasser: ")
             CompetitionModel.find({competitionNumber: req.body.competitionNumber}, function(error, competition){
                 if(error){
                     return res.status(400);
                 }
-
+                console.log(competition[0]);
                 var numbers = req.body.numbers;
                 for(var i in numbers){
                     StandplassModel.find({number: numbers[i]}, function(error, standplass){
@@ -411,7 +410,6 @@ var appRouter = function(app) {
                         console.log("La til standplass: " + numbers[i] + " i competition: " + req.body.competitionNumber );
                         competition[0].standplasses.push(standplass[0]);
                         competition[0].save(function(error, result){
-
                             if(error){
                                 return res.status(400);
                             }
@@ -480,6 +478,7 @@ var appRouter = function(app) {
      * Adds a referee to competition. need mail and competitionnumber in body
      */
     app.post("/competition/referee", function (req, res) {
+        console.log(req.body.mail, req.body.competitionNumber);
         PersonModel.find({mail: req.body.mail}, function(error, person){
             if(error){
                 return res.status(400).send(error);
@@ -489,12 +488,16 @@ var appRouter = function(app) {
                     return res.status(400).send(error);
                 }
                 competition[0].referees.push(person[0]);
-                competition[0].save(function(error, result){
-                    if(error){
-                        return res.status(400).send(error);
-                    }
-                    res.send(competition[0]);
-                });
+                if(competition != null){
+                    competition[0].save(function(error, result){
+                        if(error){
+                            return res.status(400).send(error);
+                        }
+                        res.send(competition[0]);
+                    });
+                } else{
+                    res.status(500).send("error saving");
+                }
             });
         });
     });
