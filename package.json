@@ -1,0 +1,22 @@
+{
+  "name": "ShootApp_web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "NyttStevneJs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    
+  },
+  
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "ottoman": "^1.0.4"
+  }
+}
