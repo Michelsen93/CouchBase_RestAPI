@@ -7,6 +7,7 @@ var TeamModel = require("./models").TeamModel;
 var WeaponGroupModel = require("./models").WeaponGroupModel;
 var ScoreCardModel = require("./models").ScorecardModel;
 
+//TODO - Kunne sette et stevne til fullført, slette stevne, utøver, klubb, fjerne lag,
 
 var appRouter = function(app) {
 
@@ -37,7 +38,7 @@ var appRouter = function(app) {
      * Gets all clubs
      */
     app.get("/club", function (req, res) {
-        ClubModel.find({}, function(error, people){
+        ClubModel.find({}, {load: ["*"]}, function(error, people){
             if(error){
                 return res.status(400).send(error);
             }
@@ -49,11 +50,11 @@ var appRouter = function(app) {
      * Gets club by name in params
      */
     app.get("/club/findByName/:name", function (req, res) {
-        ClubModel.find({name: req.params.name},{load: ["contactPersons"]},  function(error, person){
+        ClubModel.find({name: req.params.name},{load: ["*"]},  function(error, person){
             if(error){
                 return res.status(400).send(error);
             }
-            res.send(person);
+            res.send(person[0]);
         });
     });
 
@@ -66,7 +67,7 @@ var appRouter = function(app) {
             if(error){
                 return res.status(400).send(error);
             }
-            res.send(person);
+            res.send(person[0]);
         });
     });
 
@@ -136,7 +137,8 @@ var appRouter = function(app) {
             lastName: req.body.lastName,
             mail: req.body.mail,
             shooterId: req.body.shooterId,
-            phone: req.body.phone
+            phone: req.body.phone,
+            club: req.body.club
         });
         person.save(function (error, result) {
             if(error){
@@ -273,7 +275,7 @@ var appRouter = function(app) {
                     }
 
                 if (club[0] != null) {
-
+                        console.log(person[0]);
                         club[0].contactPersons.push(person[0]);
                         club[0].save(function (error, result) {
                             if (error) {
