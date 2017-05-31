@@ -480,27 +480,34 @@ var appRouter = function(app) {
      * Adds a referee to competition. need mail and competitionnumber in body
      */
     app.post("/competition/referee", function (req, res) {
-        console.log(req.body.mail, req.body.competitionNumber);
-        PersonModel.find({mail: req.body.mail}, function(error, person){
-            if(error){
-                return res.status(400).send(error);
-            }
+        console.log(req.body.mails, req.body.competitionNumber);
+
             CompetitionModel.find({competitionNumber: req.body.competitionNumber}, function(error, competition){
                 if(error){
                     return res.status(400).send(error);
                 }
-                competition[0].referees.push(person[0]);
-                if(competition != null){
-                    competition[0].save(function(error, result){
-                        if(error){
-                            return res.status(400).send(error);
-                        }
-                        res.send(competition[0]);
+                var mails = req.body.mails;
+                for(var i in mails){
+                PersonModel.find({mail: mails[i]}, function(error, person){
+                    if(error){
+                        return res.status(400).send(error);
+                    }
+
+                    competition[0].referees.push(person[0]);
+                    if(competition != null){
+                        competition[0].save(function(error, result){
+                            if(error){
+                                return res.status(400).send(error);
+                            }
+
+                        });
+                    } else{
+                        res.status(500).send("error saving");
+                    }
+
                     });
-                } else{
-                    res.status(500).send("error saving");
                 }
-            });
+                res.send(competition[0]);
         });
     });
 
@@ -508,22 +515,27 @@ var appRouter = function(app) {
      * Adds a competitionleader to competition. need mail and competitionnumber in body
      */
     app.post("/competition/competitionLeader", function (req, res) {
-        PersonModel.find({mail: req.body.mail}, function(error, person){
-            if(error){
-                return res.status(400).send(error);
-            }
+
             CompetitionModel.find({competitionNumber: req.body.competitionNumber}, function(error, competition){
                 if(error){
                     return res.status(400).send(error);
                 }
-                competition[0].competitionLeaders.push(person[0]);
-                competition[0].save(function(error, result){
-                    if(error){
-                        return res.status(400).send(error);
-                    }
-                    res.send(competition[0]);
-                });
-            });
+                var mails = req.body.mails;
+                for(var i in mails) {
+                    PersonModel.find({mail: mails[i]}, function (error, person) {
+                        if (error) {
+                            return res.status(400).send(error);
+                        }
+                        competition[0].competitionLeaders.push(person[0]);
+                        competition[0].save(function (error, result) {
+                            if (error) {
+                                return res.status(400).send(error);
+                            }
+
+                        });
+                    });
+                }
+                res.send(competition[0]);
         });
     });
 
