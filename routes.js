@@ -586,7 +586,111 @@ var appRouter = function(app) {
     });
 
 
+    /**
+     * delete something
+     */
+    app.post("/person/delete/:_id", function (req, res) {
+        PersonModel.getById(req.params._id, function(error, result){
+            result.remove(function(error){
+               if(error){
+                   console.log("Failed to delete: " + req.param._id);
+               } else{
+                   console.log("Deleted: " + req.params._id)
+               }
+            });
+        });
+    });
 
+    app.post("/competition/delete/:_id", function (req, res) {
+        CompetitionModel.getById(req.params._id, function(error, result){
+            result.remove(function(error){
+                if(error){
+                    console.log("Failed to delete: " + req.param._id);
+                } else{
+                    console.log("Deleted: " + req.params._id)
+                }
+            });
+        });
+    });
+
+    app.post("/standplass/delete/:_id", function (req, res) {
+        StandplassModel.getById(req.params._id, function(error, result){
+            result.remove(function(error){
+                if(error){
+                    console.log("Failed to delete: " + req.param._id);
+                } else{
+                    console.log("Deleted: " + req.params._id)
+                }
+            });
+        });
+    });
+//
+    app.post("/weaponClass/delete/:_id", function (req, res) {
+        WeapondClassModel.getById(req.params._id, function(error, result){
+            result.remove(function(error){
+                if(error){
+                    console.log("Failed to delete: " + req.param._id);
+                } else{
+                    console.log("Deleted: " + req.params._id)
+                }
+            });
+        });
+    });
+    app.post("/club/delete/:_id", function (req, res) {
+        ClubModel.getById(req.params._id, function(error, result){
+            result.remove(function(error){
+                if(error){
+                    console.log("Failed to delete: " + req.param._id);
+                } else{
+                    console.log("Deleted: " + req.params._id)
+                }
+            });
+        });
+    });
+
+    app.post("/team/delete/:_id", function (req, res) {
+        TeamModel.getById(req.params._id, function(error, result){
+            result.remove(function(error){
+                if(error){
+                    console.log("Failed to delete: " + req.param._id);
+                } else{
+                    console.log("Deleted: " + req.params._id)
+                }
+            });
+        });
+    });
+    app.post("/weaponGroup/delete/:_id", function (req, res) {
+        WeaponGroupModel.getById(req.params._id, function(error, result){
+            result.remove(function(error){
+                if(error){
+                    console.log("Failed to delete: " + req.param._id);
+                } else{
+                    console.log("Deleted: " + req.params._id)
+                }
+            });
+        });
+    });
+    app.post("/scorecard/delete/:_id", function (req, res) {
+        ScoreCardModel.getById(req.params._id, function(error, result){
+            result.remove(function(error){
+                if(error){
+                    console.log("Failed to delete: " + req.param._id);
+                } else{
+                    console.log("Deleted: " + req.params._id)
+                }
+            });
+        });
+    });
+    /**
+    var PersonModel = require("./models").PersonModel;
+    var CompetitionModel = require("./models").CompetitionModel;
+    var StandplassModel = require("./models").StandplassModel;
+    var WeapondClassModel = require("./models").WeaponClassModel;
+    var ClubModel = require("./models").ClubModel;
+    var TeamModel = require("./models").TeamModel;
+    var WeaponGroupModel = require("./models").WeaponGroupModel;
+    var ScoreCardModel = require("./models").ScorecardModel;
+    **/
 }
 
 
