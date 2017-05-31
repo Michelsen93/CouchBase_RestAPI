@@ -87,7 +87,7 @@ var appRouter = function(app) {
     //Gets all competitions. works
     app.get("/competition", function (req, res){
         //Should maybe load stuff
-        CompetitionModel.find({},{load: ["*"]}, function(error, competitions){
+        CompetitionModel.find({},{load: ["*", 'teams[*].competitors']}, function(error, competitions){
             if(error){
                 return res.status(400).send(error);
             }
