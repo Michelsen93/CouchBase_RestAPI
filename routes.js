@@ -97,7 +97,7 @@ var appRouter = function(app) {
 
     //Gets competition by competitionNumber, works
     app.get("/competition/findByCompetitionNumber/:competitionNumber", function (req, res) {
-        CompetitionModel.find({competitionNumber: req.params.competitionNumber},{load: ["*"]}, function(error, competition){
+        CompetitionModel.find({competitionNumber: req.params.competitionNumber},{load: ["*", 'teams[*].competitors']}, function(error, competition){
 
             if(error){
                 return res.status(400).send(error);
@@ -584,6 +584,7 @@ var appRouter = function(app) {
             });
         });
     });
+
 
 
 }
