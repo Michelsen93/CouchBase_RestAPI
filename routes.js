@@ -74,7 +74,8 @@ var appRouter = function(app) {
 
 
     app.get("/scorecard/getByCompetitionNumber/:competitionNumber", function(req, res){
-       ScoreCardModel.find({competitionNumber: req.params.competitionNumber},{load: ["*"]}, function (error, scorecards){
+       ScoreCardModel.find({competitionNumber: req.params.competitionNumber},{load: ["*", 'competitor.lastName',
+           'competitor.firstName', 'competitor.club']}, function (error, scorecards){
            if(error){
                console.log("feil")
                return res.status(400).send(error);
@@ -156,7 +157,7 @@ var appRouter = function(app) {
             numberOfFigures: req.body.numberOfFigures,
             description: req.body.description
 
-        });
+                    });
         standplass.save(function (error, result) {
             if(error){
                 return res.status(400).send(error);
@@ -497,12 +498,12 @@ var appRouter = function(app) {
                     if(competition != null){
                         competition[0].save(function(error, result){
                             if(error){
-                                return res.status(400).send(error);
+                                return res.status(400)(error);
                             }
 
                         });
                     } else{
-                        res.status(500).send("error saving");
+                        res.status(500)("error saving");
                     }
 
                     });
@@ -529,7 +530,7 @@ var appRouter = function(app) {
                         competition[0].competitionLeaders.push(person[0]);
                         competition[0].save(function (error, result) {
                             if (error) {
-                                return res.status(400).send(error);
+                                return res.status(400);
                             }
 
                         });
